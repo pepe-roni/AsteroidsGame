@@ -1,4 +1,5 @@
 SpaceShip aha;
+boolean left,right,accelerate,hyperspace;
 public void setup() 
 {
   size(500,500);
@@ -6,20 +7,29 @@ public void setup()
 }
 public void draw() 
 {
-    noStroke();
+  noStroke();
   background(0);
   aha.move();
   aha.show();
+  //Smoother Movement
+  if(left){aha.rotate(-5);}
+  if(right){aha.rotate(5);}
+  if(accelerate){aha.accelerate(0.1);}
 }
 
 public void keyPressed()
 {
-  if(key=='a'){aha.rotate(5);}
-  if(key=='d'){aha.rotate(-5);}
+  if(key=='a'){left=true;}
+  if(key=='d'){right=true;}
+  if(key=='w'){accelerate=true;}
 }
-      
 
-
+public void keyReleased()
+{
+  if(key=='a'){left=false;}
+  if(key=='d'){right=false;}
+  if(key=='w'){accelerate=false;}
+}
 class SpaceShip extends Floater  
 {   
   public SpaceShip()
