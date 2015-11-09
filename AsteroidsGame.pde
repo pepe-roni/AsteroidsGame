@@ -22,6 +22,7 @@ public void keyPressed()
   if(key=='a'){left=true;}
   if(key=='d'){right=true;}
   if(key=='w'){accelerate=true;}
+  if(key=='s'){reverse=false;}
 }
 
 public void keyReleased()
@@ -29,6 +30,7 @@ public void keyReleased()
   if(key=='a'){left=false;}
   if(key=='d'){right=false;}
   if(key=='w'){accelerate=false;}
+  if(key=='s'){
 }
 class SpaceShip extends Floater  
 {   
@@ -107,19 +109,19 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     myCenterY += myDirectionY;     
 
     //wrap around screen    
-    if (myCenterX >width)
+    if (myCenterX >width+50)
     {     
-      myCenterX = 0;
-    } else if (myCenterX<0)
+      myCenterX = -50;
+    } else if (myCenterX<-50)
     {     
-      myCenterX = width;
+      myCenterX = width+50;
     }    
-    if (myCenterY >height)
+    if (myCenterY >height+50)
     {    
-      myCenterY = 0;
-    } else if (myCenterY < 0)
+      myCenterY = -50;
+    } else if (myCenterY < -50)
     {     
-      myCenterY = height;
+      myCenterY = height+50;
     }
   }   
   public void show ()  //Draws the floater at the current position  
