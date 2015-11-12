@@ -1,8 +1,8 @@
 SpaceShip aha;
-boolean left,right,accelerate,hyperspace;
+boolean left,right,accelerate,reverse,hyperspace;
 public void setup() 
 {
-  size(500,500);
+  size(525,525);
   aha = new SpaceShip();
 }
 public void draw() 
@@ -11,10 +11,28 @@ public void draw()
   background(0);
   aha.move();
   aha.show();
+  System.out.println(aha.getDirectionX());
   //Smoother Movement
   if(left){aha.rotate(-5);}
   if(right){aha.rotate(5);}
   if(accelerate){aha.accelerate(0.1);}
+  if(reverse)
+  {
+   if((float)(aha.getDirectionX())>0)
+    {
+      float x=(float)(aha.getDirectionX());
+      x=x-0.1;
+      aha.setDirectionX(x);
+    }
+   if((float)(aha.getDirectionX())<0)
+    {
+      float x=(float)(aha.getDirectionX());
+      x=x+0.1;
+      aha.setDirectionX(x);
+    }
+
+
+  }
 }
 
 public void keyPressed()
@@ -22,7 +40,7 @@ public void keyPressed()
   if(key=='a'){left=true;}
   if(key=='d'){right=true;}
   if(key=='w'){accelerate=true;}
-  if(key=='s'){reverse=false;}
+  if(key=='s'){reverse=true;}
 }
 
 public void keyReleased()
@@ -30,7 +48,7 @@ public void keyReleased()
   if(key=='a'){left=false;}
   if(key=='d'){right=false;}
   if(key=='w'){accelerate=false;}
-  if(key=='s'){
+  if(key=='s'){reverse=false;}
 }
 class SpaceShip extends Floater  
 {   
