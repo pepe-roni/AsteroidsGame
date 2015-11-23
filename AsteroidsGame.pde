@@ -1,59 +1,91 @@
 SpaceShip aha;
-boolean left,right,accelerate,reverse,hyperspace;
+Starfield[] starfield;
+boolean left, right, accelerate, reverse, hyperspace;
+
 public void setup() 
 {
-  size(525,525);
+  size(550, 550);
+  starfield = new Starfield[65];
+  for (int i=0; i<starfield.length; i++)
+  {
+    starfield[i]=new NormalParticle();
+  }
   aha = new SpaceShip();
 }
+
 public void draw() 
 {
   noStroke();
-  background(0);
+  fill(0, 30);
+  rect(0, 0, 1000, 1000);
+  for (int i=0; i<starfield.length; i++)
+  {
+    if (hyperspace)
+    {
+      starfield[i].move();
+    }
+    starfield[i].show();
+  }
   aha.move();
   aha.show();
   System.out.println(aha.getDirectionX());
   //Smoother Movement
-  if(left){aha.rotate(-5);}
-  if(right){aha.rotate(5);}
-  if(accelerate){aha.accelerate(0.1);}
-  if(reverse)
+  if (left) {
+    aha.rotate(-5);
+  }
+  if (right) {
+    aha.rotate(5);
+  }
+  if (accelerate) {
+    aha.accelerate(0.1);
+  }
+  if (reverse)
   {
-   if((float)(aha.getDirectionX())>0)
-    {
-      float x=(float)(aha.getDirectionX());
-      x=x-0.1;
-      aha.setDirectionX(x);
-    }
-   if((float)(aha.getDirectionX())<0)
-    {
-      float x=(float)(aha.getDirectionX());
-      x=x+0.1;
-      aha.setDirectionX(x);
-    }
-
-
+    aha.accelerate(-0.1);
   }
 }
 
 public void keyPressed()
 {
-  if(key=='a'){left=true;}
-  if(key=='d'){right=true;}
-  if(key=='w'){accelerate=true;}
-  if(key=='s'){reverse=true;}
+  if (key=='a') {
+    left=true;
+  }
+  if (key=='d') {
+    right=true;
+  }
+  if (key=='w') {
+    accelerate=true;
+  }
+  if (key=='s') {
+    reverse=true;
+  }
+  if (key==' ') {
+    hyperspace=true;
+  }
 }
 
 public void keyReleased()
 {
-  if(key=='a'){left=false;}
-  if(key=='d'){right=false;}
-  if(key=='w'){accelerate=false;}
-  if(key=='s'){reverse=false;}
+  if (key=='a') {
+    left=false;
+  }
+  if (key=='d') {
+    right=false;
+  }
+  if (key=='w') {
+    accelerate=false;
+  }
+  if (key=='s') {
+    reverse=false;
+  }
+  if (key==' ') {
+    hyperspace=false;
+  }
 }
 class SpaceShip extends Floater  
 {   
   public SpaceShip()
-  
+
   {
     corners=4;
     xCorners = new int [corners];
@@ -67,23 +99,43 @@ class SpaceShip extends Floater
     xCorners[3] = -2;
     yCorners[3] = 0;
     myColor=255;
-    myCenterX=250;
-    myCenterY=250;
+    myCenterX=275;
+    myCenterY=275;
     myDirectionX=0;
     myDirectionY=0;
     myPointDirection=0;
   }
-  
-  public void setX(int x){myCenterX=x;}
-  public int getX(){return (int)myCenterX;}
-  public void setY(int y){myCenterY=y;}
-  public int getY(){return (int)myCenterY;}
-  public void setDirectionX(double x){myDirectionX=x;}
-  public double getDirectionX(){return myDirectionX;}
-  public void setDirectionY(double y){myDirectionY=y;}
-  public double getDirectionY(){return myDirectionY;}
-  public void setPointDirection(int degrees){myPointDirection=degrees;}
-  public double getPointDirection(){return myPointDirection;} 
+
+  public void setX(int x) {
+    myCenterX=x;
+  }
+  public int getX() {
+    return (int)myCenterX;
+  }
+  public void setY(int y) {
+    myCenterY=y;
+  }
+  public int getY() {
+    return (int)myCenterY;
+  }
+  public void setDirectionX(double x) {
+    myDirectionX=x;
+  }
+  public double getDirectionX() {
+    return myDirectionX;
+  }
+  public void setDirectionY(double y) {
+    myDirectionY=y;
+  }
+  public double getDirectionY() {
+    return myDirectionY;
+  }
+  public void setPointDirection(int degrees) {
+    myPointDirection=degrees;
+  }
+  public double getPointDirection() {
+    return myPointDirection;
+  }
 }
 
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
@@ -160,4 +212,70 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     endShape(CLOSE);
   }
 } 
+
+class NormalParticle implements Starfield
+{
+  double x, y, angle, speed, size;
+  int c;
+  NormalParticle()
+  {
+    size=15;
+    x=275;
+    y=275;
+    angle=(Math.random()*360);
+    speed=(Math.random()*3)-1;
+    c=(int)(Math.random()*255)+1;
+  }
+  public void show()
+  {
+    ellipse((float)x, (float)y, (float)size, (float)size);
+    fill(255, c, 0);
+    if (x>525 || x<40 || y>525 || y<40)
+    {
+      x=275;
+      y=275;
+      angle=(Math.random()*360);
+      speed=(Math.random()*3)-1;
+      size=0;
+    }
+    x = x+(double)((Math.cos((float)angle)))+speed;
+    y = y+(double)((Math.sin((float)angle)))-speed;
+  }
+  public void move()
+  {
+    x = x+(double)((Math.cos((float)angle)))+speed/9;
+    y = y+(double)((Math.sin((float)angle)))-speed/9;
+    size+=0.03;
+  }
+}
+interface Starfield
+{
+  public void show();
+  public void move();
+}
+class OddballParticle implements Starfield
+{
+  double x, y, angle, speed, size;
+  OddballParticle()
+  {
+    x=275;
+    y=275;
+    angle=(Math.random()*360);
+    speed=(Math.random()*3)-1;
+    size=0;
+  }
+  public void show()
+  {
+    fill(255);
+    ellipse((float)x, (float)y, (float)size, (float)size);
+  }
+
+  public void move()
+  {
+    x = x+(double)((Math.cos((float)angle)))+speed;
+    y = y+(double)((Math.sin((float)angle)))-speed;
+    angle+=200;
+    size=+0.02;
+  }
+}
 
