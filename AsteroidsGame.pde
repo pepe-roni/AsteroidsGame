@@ -5,7 +5,7 @@ boolean left, right, accelerate, reverse, hyperspace;
 public void setup() 
 {
   size(550, 550);
-  starfield = new Starfield[65];
+  starfield = new Starfield[70];
   for (int i=0; i<starfield.length; i++)
   {
     starfield[i]=new NormalParticle();
@@ -28,7 +28,7 @@ public void draw()
   }
   aha.move();
   aha.show();
-  System.out.println(aha.getDirectionX());
+
   //Smoother Movement
   if (left) {
     aha.rotate(-5);
@@ -219,7 +219,7 @@ class NormalParticle implements Starfield
   int c;
   NormalParticle()
   {
-    size=15;
+    size=2;
     x=275;
     y=275;
     angle=(Math.random()*360);
@@ -239,13 +239,14 @@ class NormalParticle implements Starfield
       size=0;
     }
     x = x+(double)((Math.cos((float)angle)))+speed;
-    y = y+(double)((Math.sin((float)angle)))-speed;
+    y = y+(double)((Math.sin((float)angle)))+speed;
+    size+=0.02;
   }
   public void move()
   {
-    x = x+(double)((Math.cos((float)angle)))+speed/9;
-    y = y+(double)((Math.sin((float)angle)))-speed/9;
-    size+=0.03;
+    x = x+(double)((Math.cos((float)angle)))+speed*9;
+    y = y+(double)((Math.sin((float)angle)))+speed*9;
+    size+=0.2;
   }
 }
 interface Starfield
