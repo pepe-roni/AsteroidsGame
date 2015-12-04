@@ -1,5 +1,6 @@
 SpaceShip aha;
 Starfield[] starfield;
+int i=0;
 boolean left, right, accelerate, reverse, hyperspace;
 
 public void setup() 
@@ -23,13 +24,36 @@ public void draw()
     if (hyperspace)
     {
       starfield[i].move();
+      starfield[i].show();
     }
     starfield[i].show();
   }
   aha.move();
   aha.show();
 
+textSize(25);
+fill(255,190);
+text(100-i/2,135,475);
+fill(255,10);
+rect(185,450,200-i,35);
   //Smoother Movement
+  if(hyperspace)
+  {
+    if(i==200)
+    {
+      aha.setDirectionX(0);
+      aha.setDirectionY(0);
+      aha.setX((int)(Math.random()*550));
+      aha.setY((int)(Math.random()*550));
+      i=0;
+    }   
+     else
+  {
+    i+=1;
+  } 
+System.out.println(i);    
+  }
+
   if (left) {
     aha.rotate(-5);
   }
@@ -59,7 +83,9 @@ public void keyPressed()
   if (key=='s') {
     reverse=true;
   }
-  if (key==' ') {
+  if (key==' ') 
+  {
+    if(i<200)
     hyperspace=true;
   }
 }
@@ -80,6 +106,7 @@ public void keyReleased()
   }
   if (key==' ') {
     hyperspace=false;
+    i=0;
   }
 }
 class SpaceShip extends Floater  
@@ -244,16 +271,18 @@ class NormalParticle implements Starfield
   }
   public void move()
   {
-    x = x+(double)((Math.cos((float)angle)))+speed*9;
-    y = y+(double)((Math.sin((float)angle)))+speed*9;
-    size+=0.2;
+    x = x+(double)((Math.cos((float)angle)))+speed*2.5;
+    y = y+(double)((Math.sin((float)angle)))+speed*2.5;
+    size+=0.02;        
   }
 }
+
 interface Starfield
 {
   public void show();
   public void move();
 }
+
 class OddballParticle implements Starfield
 {
   double x, y, angle, speed, size;
