@@ -1,6 +1,7 @@
 SpaceShip aha;
+Ast rip;
 Starfield[] starfield;
-int i=0;
+int i=100;
 boolean left, right, accelerate, reverse, hyperspace;
 
 public void setup() 
@@ -12,6 +13,7 @@ public void setup()
     starfield[i]=new NormalParticle();
   }
   aha = new SpaceShip();
+  rip=new Ast();
 }
 
 public void draw() 
@@ -30,28 +32,27 @@ public void draw()
   }
   aha.move();
   aha.show();
-
-textSize(25);
-fill(255,190);
-text(100-i/2,135,475);
-fill(255,10);
-rect(185,450,200-i,35);
+  rip.show();
+  textSize(25);
+  fill(255, 80);
+  text(100-i/2, 135, 475);
+  fill(255, 10);
+  rect(185, 450, 200-i, 35);
   //Smoother Movement
-  if(hyperspace)
+  if (hyperspace)
   {
-    if(i==200)
+    if (i==200)
     {
       aha.setDirectionX(0);
       aha.setDirectionY(0);
       aha.setX((int)(Math.random()*550));
       aha.setY((int)(Math.random()*550));
       i=0;
-    }   
-     else
-  {
-    i+=1;
-  } 
-System.out.println(i);    
+    } else
+    {
+      i+=1;
+    } 
+    System.out.println(i);
   }
 
   if (left) {
@@ -85,8 +86,8 @@ public void keyPressed()
   }
   if (key==' ') 
   {
-    if(i<200)
-    hyperspace=true;
+    if (i<200)
+      hyperspace=true;
   }
 }
 
@@ -107,6 +108,56 @@ public void keyReleased()
   if (key==' ') {
     hyperspace=false;
     i=0;
+  }
+}
+class Ast extends Floater
+{
+  public Ast()
+  {
+    corners=5;
+    xCorners = new int [corners];
+    yCorners = new int [corners];
+    for (i=0; i<corners; i++)
+    {
+      xCorners[i]=(int)(Math.random()*50)-25;
+      yCorners[i]=(int)(Math.random()*50)-25;
+    }
+    myColor=255;
+    myCenterX=275;
+    myCenterY=275;
+    myDirectionX=0;
+    myDirectionY=0;
+    myPointDirection=0;
+  }
+  public void setX(int x) {
+    myCenterX=x;
+  }
+  public int getX() {
+    return (int)myCenterX;
+  }
+  public void setY(int y) {
+    myCenterY=y;
+  }
+  public int getY() {
+    return (int)myCenterY;
+  }
+  public void setDirectionX(double x) {
+    myDirectionX=x;
+  }
+  public double getDirectionX() {
+    return myDirectionX;
+  }
+  public void setDirectionY(double y) {
+    myDirectionY=y;
+  }
+  public double getDirectionY() {
+    return myDirectionY;
+  }
+  public void setPointDirection(int degrees) {
+    myPointDirection=degrees;
+  }
+  public double getPointDirection() {
+    return myPointDirection;
   }
 }
 class SpaceShip extends Floater  
@@ -273,7 +324,7 @@ class NormalParticle implements Starfield
   {
     x = x+(double)((Math.cos((float)angle)))+speed*2.5;
     y = y+(double)((Math.sin((float)angle)))+speed*2.5;
-    size+=0.02;        
+    size+=0.02;
   }
 }
 
