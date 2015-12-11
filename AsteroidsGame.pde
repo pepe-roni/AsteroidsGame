@@ -50,7 +50,7 @@ public void draw()
       i=200;
     } else
     {
-      i+=1;
+      i+=0.5;
     } 
     System.out.println(i);
   }
@@ -107,8 +107,8 @@ public void keyReleased()
   if (key=='s') {
     reverse=false;
   }
-  if (key==' ') {
-    hyperspace=false;
+if (key==' ') {
+hyperspace=false;
   }
 }
 class Ast extends Floater
