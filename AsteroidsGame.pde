@@ -1,7 +1,7 @@
 SpaceShip aha;
 Ast rip;
 Starfield[] starfield;
-int i=100;
+float i=200;
 boolean left, right, accelerate, reverse, hyperspace;
 
 public void setup() 
@@ -35,7 +35,7 @@ public void draw()
   rip.show();
   textSize(25);
   fill(255, 80);
-  text(100-i/2, 135, 475);
+  text((int)(100-i/2), 135, 475);
   fill(255, 10);
   rect(185, 450, 200-i, 35);
   //Smoother Movement
@@ -47,26 +47,28 @@ public void draw()
       aha.setDirectionY(0);
       aha.setX((int)(Math.random()*550));
       aha.setY((int)(Math.random()*550));
-      i=0;
+      i=200;
     } else
     {
       i+=1;
     } 
     System.out.println(i);
   }
+  else if(i>0)
+  i-=0.2;
 
   if (left) {
-    aha.rotate(-5);
+    aha.rotate(-8);
   }
   if (right) {
-    aha.rotate(5);
+    aha.rotate(8);
   }
   if (accelerate) {
-    aha.accelerate(0.1);
+    aha.accelerate(0.2);
   }
   if (reverse)
   {
-    aha.accelerate(-0.1);
+    aha.accelerate(-0.2);
   }
 }
 
@@ -107,22 +109,21 @@ public void keyReleased()
   }
   if (key==' ') {
     hyperspace=false;
-    i=0;
   }
 }
 class Ast extends Floater
 {
   public Ast()
   {
-    corners=5;
+    corners=0;
     xCorners = new int [corners];
     yCorners = new int [corners];
-    for (i=0; i<corners; i++)
+    for(int a=0; a<corners; a++)
     {
-      xCorners[i]=(int)(Math.random()*50)-25;
-      yCorners[i]=(int)(Math.random()*50)-25;
+      xCorners[a]=(int)(Math.random()*50)-25;
+      yCorners[a]=(int)(Math.random()*50)-25;
     }
-    myColor=255;
+    myColor=150;
     myCenterX=275;
     myCenterY=275;
     myDirectionX=0;
